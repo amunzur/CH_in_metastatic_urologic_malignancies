@@ -60,35 +60,3 @@ rule hs_metrics:
     		R={input.PATH_hg38} \
     		BAIT_INTERVALS={input.PATH_baits} \
     		TARGET_INTERVALS={input.PATH_baits}"
-
-# rule run_tnvstats:
-# 	input:
-# 		BAM_tumor_path=DIR_bams + "/SSCS1_clipped/{wildcard}.bam",
-# 		BAM_normal_path=
-# 		BAM_normal_name=
-# 				BAM_index=DIR_bams + "/SSCS1_clipped/{wildcard}.bam.bai",
-
-# 	params:
-# 	output:
-# 	conda:
-#         "../envs/pysamstat_v2.yaml"
-# 	shell:
-# 		'script_dir="/groups/wyattgrp/users/amunzur/gene_panel_pipeline/scripts";
-# 		mkdir -p /groups/wyattgrp/users/amunzur/chip_project/tnvstats/kidney_samples; # output dir to place all tnvstats
-# 		configfile="/groups/wyattgrp/users/amunzur/gene_panel_pipeline/scripts/config.txt"; # conda envs and stuff
-
-# 		source ${configfile};
-# 		source ${conda_profile_path};
-# 		conda activate ${conda_pysam_env};
-
-# 		while read name_tumor path_tumor name_normal path_normal
-# 		do
-# 		    echo $name_tumor
-# 		    echo $name_normal
-# 		    outputdir="/groups/wyattgrp/users/amunzur/chip_project/tnvstats/kidney_samples/${name_tumor}";
-
-# 		    # tbam=$(readlink -ve ${path_tumor})
-# 		    # nbam=$(readlink -ve ${path_normal})
-# 		    printf "bash ${script_dir}/make_tnvstat_file.bash ${path_tumor} ${path_normal} ${name_tumor} ${name_normal} ${outputdir} ${configfile}\n";
-# 		    sbatch ${script_dir}/make_tnvstat_file.bash ${path_tumor} ${path_normal} ${name_tumor} ${name_normal} ${outputdir} ${configfile};
-# 		done < /groups/wyattgrp/users/amunzur/pipeline/results/metrics/tnvstats/kidney_samples/bam_subset.txt'
