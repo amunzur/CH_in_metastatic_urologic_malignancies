@@ -1,5 +1,10 @@
 # CH in metastatic urologic malignacies
 This repo contains the relevant snakemake rules for to carry out FastQ modification, BAM generation and variant calling as explained in our article "Clonal hematopoiesis in metastatic urothelial and kidney cancer". 
 
-1. The conda environment including all dependencies can be generated from the from the `envs/snakemake.yaml` file.
-2. Edit the config file in this repo with paths pointing to directories you wish to populate.
+## Pre-requisites
+Our analysis pipeline is written in Python using the Snakemake workflow management system. Please follow these instructions for setup:
+1. All dependencies needed to run the pipeline are provided in the `envs/snakemake.yaml` file. You can create the snakemake environment by running `conda env create -f snakemake.yaml`
+2. GATK's base calibration tool that we use requires the following three files (`resources_broad_hg38_v0_Homo_sapiens_assembly38.known_indels.vcf`, `resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf`, `resources_broad_hg38_v0_Homo_sapiens_assembly38.dbsnp138.vcf`) which can be downloaded from this [Google Cloud](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0;tab=objects?prefix=&forceOnObjectsSortingFiltering=false&pli=1) link. 
+3. Mutect2 requires a panel of normals, which can be obtained from this [link](https://gatk.broadinstitute.org/hc/en-us/articles/360035890631-Panel-of-Normals-PON).
+4. 
+

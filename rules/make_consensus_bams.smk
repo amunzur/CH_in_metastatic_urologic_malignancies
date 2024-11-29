@@ -1,7 +1,7 @@
 rule FastqToBam:
     input:
-        R1=DIR_trimmed_fastq + "/{wildcard}_1.fq.gz",
-        R2=DIR_trimmed_fastq + "/{wildcard}_2.fq.gz",
+        R1=DIR_fastq + "/trimmed/{wildcard}_1.fq.gz",
+        R2=DIR_fastq + "/trimmed/{wildcard}_2.fq.gz",
     output:
         temp(DIR_bams + "/uBAM/{wildcard}.bam"),
     params:
@@ -124,7 +124,6 @@ rule recalibrate_bases:
         shell(
             "gatk BaseRecalibrator -I {input} -R {params.PATH_hg38} --known-sites {params.PATH_known_indels} --known-sites {params.PATH_gold_std_indels} --known-sites {params.PATH_SNP_db} -O {output}"
         )
-
 
 rule apply_base_scores:
     input:

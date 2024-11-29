@@ -37,7 +37,7 @@ rule run_VarDict_somatic:
         -N '{params.sample_name_cfDNA}|{params.sample_name_wbc}' -f {params.THRESHOLD_VarFreq} > {output}
         """
 
-rule run_mutect2_somatic:
+rule run_mutect2_ctdna:
     input:
         cfDNA=DIR_bams + "/{consensus_type}_final/{wildcard}.bam",
         wbc=lambda wildcards: get_wbc(wildcards.wildcard, "{consensus_type}", "final")[0],

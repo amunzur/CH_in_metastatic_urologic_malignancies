@@ -1,27 +1,17 @@
 rule run_fastqc_merged:
     input:
-        DIR_merged_fastq + "/{wildcard}.fq.gz",
+        DIR_fastq + "/merged/{wildcard}.fq.gz",
     output:
-        output_zip=DIR_merged_fastqc + "/{wildcard}_fastqc.zip",
-        output_html=DIR_merged_fastqc + "/{wildcard}_fastqc.html",
+        output_zip=DIR_fastqc + "/merged/{wildcard}_fastqc.zip",
+        output_html=DIR_fastqc + "/merged/{wildcard}_fastqc.html",
     threads: 5
     shell:
         "fastqc {input} --outdir=`dirname {output.output_zip}`"
 
-rule fastq_read_counts:
-    input:
-        DIR_merged_fastq + "/{wildcard}_1.fq.gz",
-    params:
-        sample_name="{wildcard}",
-    output:
-        DIR_readcounts_metrics + "/raw/{wildcard}.txt",
-    shell:
-        "paste <(echo {params}) <(echo $(cat {input}|wc -l)/4|bc) > {output}"
-
 rule trim_fastq:
     input:
-        R1=DIR_merged_fastq + "/{wildcard}_1.fq.gz",
-        R2=DIR_merged_fastq + "/{wildcard}_2.fq.gz",
+        R1=DIR_fastq + "/merged/{wildcard}_1.fq.gz",
+        R2=DIR_fastq + "/merged/{wildcard}_2.fq.gz",
     output:
         R1=temp(DIR_trimmed_fastq + "/{wildcard}_1.fq.gz"),
         R2=temp(DIR_trimmed_fastq + "/{wildcard}_2.fq.gz"),
@@ -45,13 +35,13 @@ rule trim_fastq:
 
 rule run_fastqc_trimmed:
     input:
-        R1=DIR_trimmed_fastq + "/{wildcard}_1.fq.gz",
-        R2=DIR_trimmed_fastq + "/{wildcard}_2.fq.gz",
+        R1=DIR_fastq + "/trimmed/{wildcard}_1.fq.gz",
+        R2=DIR_fastq + "/trimmed/{wildcard}_2.fq.gz",
     output:
-        output_zip_R1=DIR_trimmed_fastqc + "/{wildcard}_1_fastqc.zip",
-        output_html_R1=DIR_trimmed_fastqc + "/{wildcard}_1_fastqc.html",
-        output_zip_R2=DIR_trimmed_fastqc + "/{wildcard}_2_fastqc.zip",
-        output_html_R2=DIR_trimmed_fastqc + "/{wildcard}_2_fastqc.html",
+        output_zip_R1=DIR_fastqc + "/trimmed/{wildcard}_1_fastqc.zip",
+        output_html_R1=DIR_fastqc + "/trimmed/{wildcard}_1_fastqc.html",
+        output_zip_R2=DIR_fastqc + "/trimmed/{wildcard}_2_fastqc.zip",
+        output_html_R2=DIR_fastqc + "/trimmed/{wildcard}_2_fastqc.html",
     threads: 5
     shell:
         """

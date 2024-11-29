@@ -1,0 +1,36 @@
+---
+# References
+PATH_hg38: "/path/to/hg38.fa"
+PATH_hg38_dict: "path/to/hg38.fa.dict"
+PATH_bed: "/path/to/targeted_sequencing_bed_file.bed"
+PATH_bed_intervals: "/path/to/bed.interval_list"
+PATH_baits: "/path/to/panel_baits.interval_list"
+
+# For base recalibration
+PATH_known_indels: "/path/to/resources_broad_hg38_v0_Homo_sapiens_assembly38.known_indels.vcf"
+PATH_gold_std_indels: "/path/to/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf"
+PATH_SNP_db: "/path/to/resources_broad_hg38_v0_Homo_sapiens_assembly38.dbsnp138.vcf"
+
+# For Mutect2
+PATH_PoN: "/path/to/pon.vcf.gz"
+
+# Data files
+DIR_results: "results"
+DIR_fastq: "results/data/fastq"
+DIR_bams: "results/data/bam"
+DIR_recalibrated_base_scores: "results/base_recalc_info"
+
+# Fastqc reports
+DIR_fastqc: "results/reports/fastqc/merged" # running fastqc right after merging individual fastqs from lanes
+
+# Metrics outputs
+DIR_umi_metrics: "results/metrics/umi_metrics"
+
+# Variant calling and annotation
+DIR_Vardict: "results/variant_calling/Vardict"
+DIR_Mutect: "results/variant_calling/Mutect2"
+DIR_freebayes: "results/variant_calling/freebayes"
+DIR_ANNOVAR: "results/data/annovar_outputs"
+
+# Metrics
+DIR_metrics: "results/metrics"

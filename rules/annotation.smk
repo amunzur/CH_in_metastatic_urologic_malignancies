@@ -1,10 +1,9 @@
 rule run_ANNOVAR_chip:
     input:
-        DIR_results
-        + "/variant_calling_chip/{variant_caller}/{consensus_type}/{wildcard}.vcf.gz",
+        DIR_results + "/variant_calling_chip/{variant_caller}/{consensus_type}/{wildcard}.vcf.gz",
     output:
-        DIR_results + "/data/annovar_outputs/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.txt",
-        DIR_results + "/data/annovar_outputs/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/chip_variants/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.txt",
+        DIR_ANNOVAR + "/chip_variants/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.vcf",
     params:
         placeholder = DIR_results + "/data/annovar_outputs/{variant_caller}/{consensus_type}/{wildcard}",
     shell:
@@ -17,14 +16,14 @@ rule run_ANNOVAR_chip:
         -operation g,f,f,f,f \
         -nastring ."
 
-rule run_ANNOVAR_somatic:
+rule run_ANNOVAR_ctDNA:
     input:
         DIR_results + "/variant_calling_somatic/{variant_caller}/{consensus_type}/{wildcard}.vcf.gz",
     output:
-        DIR_results + "/data/annovar_outputs_somatic/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.vcf",
-        DIR_results + "/data/annovar_outputs_somatic/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.txt",
+        DIR_ANNOVAR + "/ctDNA_variants/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/ctDNA_variants/{variant_caller}/{consensus_type}/{wildcard}.hg38_multianno.txt",
     params:
-        DIR_results + "/data/annovar_outputs_somatic/{variant_caller}/{consensus_type}/{wildcard}",
+        DIR_ANNOVAR + "/ctDNA_variants/{variant_caller}/{consensus_type}/{wildcard}",
     shell:
         "perl table_annovar.pl {input} humandb \
         -vcfinput \
@@ -35,11 +34,10 @@ rule run_ANNOVAR_somatic:
         -operation g,f,f,f,f \
         -nastring ."
 
-# SOMATIC
-# wildcard is cfDNA
+# ctDNA mutations, ildcard is cfDNA.
 rule vcfToTable_freebayes_somatic:
     input:
-        DIR_results + "/data/annovar_outputs_somatic/freebayes/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/ctDNA_variants/freebayes/{consensus_type}/{wildcard}.hg38_multianno.vcf",
     output:
         DIR_results + "/data/variant_tables/somatic/freebayes/{consensus_type}/{wildcard}.tsv",
     params:
@@ -55,11 +53,9 @@ rule vcfToTable_freebayes_somatic:
 
 rule vcfToTable_Vardict:
     input:
-        DIR_results
-        + "/data/annovar_outputs_somatic/Vardict/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/ctDNA_variants/Vardict/{consensus_type}/{wildcard}.hg38_multianno.vcf",
     output:
-        DIR_results
-        + "/data/variant_tables/somatic/Vardict/{consensus_type}/{wildcard}.tsv",
+        DIR_results + "/data/variant_tables/ctDNA_variants/Vardict/{consensus_type}/{wildcard}.tsv",
     shell:
         """
         gatk VariantsToTable \
@@ -71,10 +67,9 @@ rule vcfToTable_Vardict:
 
 rule vcfToTable_Mutect2_somatic:
     input:
-        DIR_results
-        + "/data/annovar_outputs_somatic/Mutect2/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/ctDNA_variants/Mutect2/{consensus_type}/{wildcard}.hg38_multianno.vcf",
     output:
-        DIR_results + "/data/variant_tables/somatic/Mutect2/{consensus_type}/{wildcard}.tsv",
+        DIR_results + "/data/variant_tables/ctDNA_variants/Mutect2/{consensus_type}/{wildcard}.tsv",
     shell:
         """
         gatk VariantsToTable \
@@ -88,9 +83,9 @@ rule vcfToTable_Mutect2_somatic:
 # wildcard is samples, both cfDNA and gDNA processed individually
 rule vcfToTable_freebayes_chip:
     input:
-        DIR_results + "/data/annovar_outputs/freebayes/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/chip_variants/freebayes/{consensus_type}/{wildcard}.hg38_multianno.vcf",
     output:
-        DIR_results + "/data/variant_tables/chip/freebayes/{consensus_type}/{wildcard}.tsv",
+        DIR_results + "/data/variant_tables/chip_variants/freebayes/{consensus_type}/{wildcard}.tsv",
     params:
         DIR_ANNOVAR + "/freebayes/{consensus_type}/{wildcard}",
     shell:
@@ -104,11 +99,9 @@ rule vcfToTable_freebayes_chip:
 
 rule vcfToTable_Vardict_chip:
     input:
-        DIR_results
-        + "/data/annovar_outputs/Vardict/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/chip_variants/Vardict/{consensus_type}/{wildcard}.hg38_multianno.vcf",
     output:
-        DIR_results
-        + "/data/variant_tables/chip/Vardict/{consensus_type}/{wildcard}.tsv",
+        DIR_results + "/data/variant_tables/chip_variants/Vardict/{consensus_type}/{wildcard}.tsv",
     shell:
         """
         gatk VariantsToTable \
@@ -121,10 +114,9 @@ rule vcfToTable_Vardict_chip:
 # wildcard is cfDNA
 rule vcfToTable_Mutect2_chip:
     input:
-        DIR_results
-        + "/data/annovar_outputs/Mutect2/{consensus_type}/{wildcard}.hg38_multianno.vcf",
+        DIR_ANNOVAR + "/chip_variants/Mutect2/{consensus_type}/{wildcard}.hg38_multianno.vcf",
     output:
-        DIR_results + "/data/variant_tables/chip/Mutect2/{consensus_type}/{wildcard}.tsv",
+        DIR_results + "/data/variant_tables/chip_variants/Mutect2/{consensus_type}/{wildcard}.tsv",
     shell:
         """
         gatk VariantsToTable \
